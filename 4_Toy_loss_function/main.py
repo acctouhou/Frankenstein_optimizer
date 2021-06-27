@@ -7,8 +7,10 @@ from plot_tools import plot_contourf, plot_cost_function_3d, plot_evolution_char
 from test_optimization_functions import Beale,saddle,Rose,Booth,Himme,Bukin,McCormick,be,Rastrigin,Ackley
 from matplotlib.animation import FuncAnimation
 from optimizers import Optimizer, run_optimizer
+import math
 
-import sys
+
+
 name='Beale'
 
 
@@ -76,7 +78,6 @@ class adam(Optimizer):
         self.x = self.x - (lr*m_x_hat)/(np.sqrt(v_x_hat)+epsilon)
         self.y = self.y - (lr*m_y_hat)/(np.sqrt(v_y_hat)+epsilon)
         return [self.x, self.y]
-import math
 class Frankenstein(Optimizer):
     def __init__(self, cost_f, lr=0.001, x=None, y=None):
         super().__init__(cost_f, lr, x, y)
