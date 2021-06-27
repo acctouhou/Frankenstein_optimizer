@@ -37,12 +37,12 @@ python main.py
 ###Optimizers with learning rate 1e-2 on Beale problem
 <div align="center">
       <a href="https://youtu.be/aE1_6LLsP18">
-         <img src="https://youtu.be/aE1_6LLsP18/0.jpg" style="width:100%;">
+         <img src="https://img.youtube.com/vi/aE1_6LLsP18/0.jpg" style="width:100%;">
       </a>
 </div>
 ###Optimizers with learning rate 1e-4 on Beale problem
 <div align="center">
       <a href="https://youtu.be/Jju3I3-0ies">
-         <img src="https://youtu.be/Jju3I3-0ies/0.jpg" style="width:100%;">
+         <img src="https://img.youtube.com/vi/Jju3I3-0ies/0.jpg" style="width:100%;">
       </a>
 </div>
