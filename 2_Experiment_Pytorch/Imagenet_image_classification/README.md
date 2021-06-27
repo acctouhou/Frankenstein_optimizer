@@ -4,6 +4,8 @@
 
 This repo is modified form the [project](https://github.com/rwightman/pytorch-image-models).
 
+The bash file demonstrates 4 GPU (GTX 2080TI) training the image classification model with Frankenstein optimizer and achieving State-of-the-Art.
+
 
 ## Getting started
 
