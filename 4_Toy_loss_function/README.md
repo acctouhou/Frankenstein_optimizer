@@ -36,13 +36,13 @@ python main.py
 
 <div align="center">
       <a href="https://youtu.be/aE1_6LLsP18">
-         <img src="https://img.youtube.com/vi/aE1_6LLsP18/3.jpg" style="width:100%;">
+         <img src="https://img.youtube.com/vi/aE1_6LLsP18/1.jpg" style="width:100%;">
       </a>
 </div>
 ###Optimizers with learning rate 1e-4 on Beale problem  
 
 <div align="center">
       <a href="https://youtu.be/Jju3I3-0ies">
-         <img src="https://img.youtube.com/vi/Jju3I3-0ies/3.jpg" style="width:100%;">
+         <img src="https://img.youtube.com/vi/Jju3I3-0ies/1.jpg" style="width:100%;">
       </a>
 </div>
