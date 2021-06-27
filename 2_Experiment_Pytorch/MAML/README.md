@@ -25,5 +25,5 @@ python main.py data --taropt 0 --output-folder temp --dataset omniglot --num-way
 ```
 
 ## Result
+<img width="800" alt="portfolio_view" src="https://github.com/acctouhou/Frankenstein_optimizer_temp/blob/main/2_Experiment_Pytorch/MAML/maml.png">
 
-![image](maml.png =250x250)
