@@ -18,7 +18,7 @@ Optimization problems listed below are available as well:
 - **Rose**
 - **Booth**
 - **saddle**
-- **ssine**
+- **ssine** (the problem tests the ability to escape local minimum)
 
 ## Getting started
 
