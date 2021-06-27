@@ -33,7 +33,7 @@ python main.py
 
 ## Result
 
-###Optimizers with learning rate 1e-2 on Beale problem  
+### Optimizers with learning rate 1e-2 on Beale problem  
 
 <div align="center">
       <a href="https://youtu.be/aE1_6LLsP18">
@@ -41,7 +41,7 @@ python main.py
       </a>
 </div>
 
-###Optimizers with learning rate 1e-4 on Beale problem  
+### Optimizers with learning rate 1e-4 on Beale problem  
 
 <div align="center">
       <a href="https://youtu.be/Jju3I3-0ies">
