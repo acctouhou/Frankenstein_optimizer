@@ -26,4 +26,4 @@ python main.py data --taropt 0 --output-folder temp --dataset omniglot --num-way
 
 ## Result
 
-![image](maml.png=250x250)
+![image](maml.png =250x250)
