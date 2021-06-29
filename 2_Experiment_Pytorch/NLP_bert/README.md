@@ -35,8 +35,8 @@ python inital.py 0 0    #training as random initial
 
 ### The testing accuracy with pre-trained weights
 
-<img width="800" alt="portfolio_view" src="https://github.com/acctouhou/Frankenstein_optimizer_temp/blob/main/2_Experiment_Pytorch/Imagenet_image_classification/imagenet.png">
+<img width="800" alt="portfolio_view" src="https://github.com/acctouhou/Frankenstein_optimizer_temp/blob/main/2_Experiment_Pytorch/NLP_bert/transfer_bert.png">
 
 ### The testing accuracy with random initial  weights
 
-<img width="800" alt="portfolio_view" src="https://github.com/acctouhou/Frankenstein_optimizer_temp/blob/main/2_Experiment_Pytorch/Imagenet_image_classification/imagenet.png">
+<img width="800" alt="portfolio_view" src="https://github.com/acctouhou/Frankenstein_optimizer_temp/blob/main/2_Experiment_Pytorch/NLP_bert/initial_bert.png">
