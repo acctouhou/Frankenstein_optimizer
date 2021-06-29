@@ -15,12 +15,15 @@ bash run_resnet18.sh # for Frankenstein on resnet18
 ```
 
 ## Result
-<img width="800" alt="portfolio_view" src="https://github.com/acctouhou/Frankenstein_optimizer_temp/blob/main/2_Experiment_Pytorch/Imagenet_image_classification/imagenet.png">
 
 Top 1 testing accuracy:
 |     Model     | accuracy |
 | ------------- | -------- |
 |   Resnet18    | 71.2512  |
 |   Resnet50    | 77.5576  |
+
+<img width="800" alt="portfolio_view" src="https://github.com/acctouhou/Frankenstein_optimizer_temp/blob/main/2_Experiment_Pytorch/Imagenet_image_classification/imagenet.png">
+
+
 
 
