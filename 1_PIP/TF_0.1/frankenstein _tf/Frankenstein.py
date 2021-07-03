@@ -2,6 +2,12 @@ import tensorflow as tf
 import math
 from tensorflow.python.ops import math_ops
 from tensorflow.python.keras import backend_config
+
+from tensorflow.python.ops import state_ops
+from tensorflow.python.framework import ops
+from tensorflow.python.ops import resource_variable_ops
+
+
 class Frankenstein(tf.keras.optimizers.Optimizer):
     def __init__(
         self,
@@ -32,7 +38,7 @@ class Frankenstein(tf.keras.optimizers.Optimizer):
         if len(weights) == 3 * num_vars + 1:
             weights = weights[: len(params)]
         super().set_weights(weights)
-    def _resource_apply_dense(self, grad, var):
+    def _resource_apply_dense(self, grad, var, indices, scatter_add):
         var_dtype = var.dtype.base_dtype
         m = self.get_slot(var, "m")
         s = self.get_slot(var, "s")
@@ -72,12 +78,12 @@ class Frankenstein(tf.keras.optimizers.Optimizer):
         updata_vamx=vmax.assign(new_vmax, use_locking=self._use_locking)
         
         if self._has_weight_decay:
-            new_p+=wd * var*lr_t1
+            new_p+=wd_t * var*lr_t1
         
         var_update = var.assign_sub(new_p, use_locking=self._use_locking)
         updates = [var_update, updata_m, updata_s,updata_vamx]
         return tf.group(*updates)
-    def _resource_apply_sparse(self, grad, var):
+    def _resource_apply_sparse(self, grad, var, indices, scatter_add):
         var_dtype = var.dtype.base_dtype
         m = self.get_slot(var, "m")
         s = self.get_slot(var, "s")
@@ -107,7 +113,7 @@ class Frankenstein(tf.keras.optimizers.Optimizer):
                                                               ,-1.71828182846,0.1393692896)))
         new_m = state_ops.assign(m, math_ops.multiply(m , scale_m),use_locking=self._use_locking)
         with ops.control_dependencies([new_m]):
-            new_m = self._resource_scatter_add(m, indices, m_scaled_g_values)
+            new_m = self._resource_scatter_add(m, indices, temp2)
             
         new_p = math_ops.subtract(temp2, math_ops.multiply(momentum_t,new_m))
         gg=math_ops.multiply(math_ops.divide(pen,s),math_ops.abs(temp1))
@@ -121,13 +127,16 @@ class Frankenstein(tf.keras.optimizers.Optimizer):
             new_vmax = self._resource_scatter_add(vmax, indices, scale_plus)
         
         if self._has_weight_decay:
-            new_p+=wd * var*lr_t1
+            new_p+=wd_t * var*lr_t1
             
         updata_s=s.assign(pen, use_locking=self._use_locking)
         var_update = var.assign_sub(new_p, use_locking=self._use_locking)
         updates = [var_update, new_m, updata_s,new_vmax]
         return tf.group(*updates)
-
+    def _resource_scatter_add(self, x, i, v):
+        with ops.control_dependencies(
+            [resource_variable_ops.resource_scatter_add(x.handle, i, v)]):
+            return x.value()
     def get_config(self):
         config = super().get_config()
         config.update(

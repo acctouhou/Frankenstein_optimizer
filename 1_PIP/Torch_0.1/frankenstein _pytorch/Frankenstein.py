@@ -62,20 +62,20 @@ class Frankenstein (Optimizer):
                 if group['fixed_beta']!=0:
                     momentum=group['fixed_beta']
                 else:
-                    momentum=1.0-np.clip(0.1*math.sqrt(group['lr']/1e-3),0.05,0.5)
+                    momentum=1.0-torch.clamp(0.1*math.sqrt(group['lr']/1e-3),0.05,0.99)
                 
                 if group['weight_decay'] > 0:
                     if group['weight_decouple']:
                         p.data.mul_(1.0 - group['lr'] * group['weight_decay'])
                     else:
                         grad.add_(p.data, alpha=group['weight_decay'])
-                v_f=torch.div(torch.acos(torch.tanh(torch.mul(m,grad))),3.14159)
+                v_f=torch.div(torch.acos(torch.tanh(torch.mul(m,grad))),math.pi)
                 kk= torch.exp(-torch.abs(torch.add(s ,-v_f)))
                 dfc =torch.div(1.60653065971,torch.add(1.0,kk))
                 pen=torch.add(torch.mul(grad,grad) ,group['eps'])
                 temp1=torch.max(vmax, pen)
                 temp2=torch.sqrt(temp1)
-                lr_t=torch.mul(torch.div(group['lr'],temp2)),dfc)
+                lr_t=torch.mul(torch.div(group['lr'],temp2),dfc)
                 temp3=torch.log(torch.clamp(3.21828182846-v_f+temp2
                 , 0.81873075307,2.8010658347))
                 m.mul_(torch.mul(temp3,momentum)).add_(torch.mul(-grad , lr_t))
