@@ -91,10 +91,7 @@ class Frankenstein(Optimizer):
         f = self.cost_f.eval(self.x, self.y)
         dx = self.cost_f.df_dx(self.x, self.y)
         dy = self.cost_f.df_dy(self.x, self.y)
-        
-        
         beta=1.0-np.clip(0.1*np.sqrt(lr/1e-2),0.05,0.5)
-        
         v_fx=np.arccos((np.tanh((dx*self.m_x))))/math.pi
         v_fy=np.arccos((np.tanh((dy*self.m_y))))/math.pi
         
@@ -113,13 +110,13 @@ class Frankenstein(Optimizer):
         lr_tx=lr/np.sqrt(vmax_tx)*dfcx
         lr_ty=lr/np.sqrt(vmax_ty)*dfcy
         
-        new_mx=self.m_x*np.log(np.clip(2.71828182846-v_fx+0.5
+        new_mx=self.m_x*np.log(np.clip(2.71828182846-v_fx+0.5+np.sqrt(vmax_tx)
                 , 0.81873075307,2.8010658347))
-        new_my=self.m_y*np.log(np.clip(2.71828182846-v_fy+0.5
+        new_my=self.m_y*np.log(np.clip(2.71828182846-v_fy+0.5+np.sqrt(vmax_tx)
                 , 0.81873075307,2.8010658347))
         
         new_mx = beta *new_mx -  dx * lr_tx
-        new_my = beta*new_my -  dy * lr_ty
+        new_my = beta *new_my -  dy * lr_ty
         
         new_px = self.x +beta*new_mx  - dx* lr_tx
         new_py = self.y +beta*new_my  - dy* lr_ty
