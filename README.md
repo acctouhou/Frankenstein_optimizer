@@ -48,7 +48,7 @@ This folder showcases optimization on a variety of toy problems, illustrating th
 
 - **Beale Function**
 - **Saddle Point Problem**
-- **Rosenbrock Function** (Rose)
+- **Rosenbrock Function**
 
 #### Features
 - Use `example.ipynb` to visualize the trajectories of different optimizers on specified optimization problems.
