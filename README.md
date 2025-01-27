@@ -15,7 +15,16 @@ This folder provides 'pip install' to installing **Frankenstein_optimizer** in b
 This folder contains experiments implemented in PyTorch, focusing on high-performance training and model optimization:
 
 - **ImageNet Image Classification**:
-  - Utilizes the `timm` library for efficient training on multi-GPU setups.
+  - Train ResNet models from scratch using **Frankenstein_optimizer**:
+    - **ResNet18**: Use the script `run_resnet18.sh` to start training.
+    - **ResNet50**: Use the script `run_resnet50.sh` to start training.
+  - Both scripts are configured to perform distributed training across **4 GPUs**.
+  - To execute the training:
+    # Training ResNet18
+    bash run_resnet18.sh
+
+    # Training ResNet50
+    bash run_resnet50.sh
   
 - **MAML (Model-Agnostic Meta-Learning)**:
   - A comprehensive implementation of MAML for rapid adaptation to new tasks.
