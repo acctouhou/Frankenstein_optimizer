@@ -19,19 +19,16 @@ This folder contains experiments implemented in PyTorch, focusing on high-perfor
     - **ResNet18**: Use the script `run_resnet18.sh` to start training.
     - **ResNet50**: Use the script `run_resnet50.sh` to start training.
   - Both scripts are configured to perform distributed training across **4 GPUs**.
-  - To execute the training:
-    # Training ResNet18
-    bash run_resnet18.sh
-
-    # Training ResNet50
-    bash run_resnet50.sh
   
 - **MAML (Model-Agnostic Meta-Learning)**:
   - A comprehensive implementation of MAML for rapid adaptation to new tasks.
+  - To reproduce results, simply run the provided script `main.py`
   
 - **Sentiment Analysis**:
   - Employs the BERT model for sentiment analysis based on the IMDB dataset.
-
+  - Two training approaches are provided:
+    - **`initial.py`**: Demonstrates fine-tuning starting from the initial weights of the BERT model.
+    - **`transfer.py`**: Demonstrates fine-tuning starting from pre-trained BERT model parameters.
 ---
 
 ### 3. `3_Experiment_Tensorflow`
@@ -40,19 +37,23 @@ This folder provides experiments implemented in TensorFlow, demonstrating state-
 - **Transfer Learning**:
   - Uses EfficientNet for transfer learning on the CIFAR-10 and CIFAR-100 datasets.
 
-- **Reproducing Adaptive Gradient Method Results**:
-  - Includes a simple test to replicate experiments and analyze the issues raised in *The Marginal Value of Adaptive Gradient Methods in Machine Learning*.
+- **Simple Overfitting Problem**:
+- This experiment addresses a simple overfitting problem and demonstrates the performance of **Frankenstein_optimizer**.
+- To reproduce the results, simply run: "python main.py"
 
 ---
 
 ### 4. `4_Toy_loss_function`
-This folder showcases optimization on a variety of toy problems, illustrating the performance of **Frankenstein_optimizer** on common convex and non-convex loss functions:
+This folder showcases optimization on a variety of toy problems, illustrating the performance of **Frankenstein_optimizer** and other optimizers on common convex and non-convex loss functions:
 
 - **Beale Function**
 - **Saddle Point Problem**
 - **Rosenbrock Function** (Rose)
-......
 
-These examples provide a clear visualization of the optimizer's behavior in different optimization landscapes.
+#### Features
+- Use `example.ipynb` to visualize the trajectories of different optimizers on specified optimization problems.
+- Use `main.py` to generate animations including:
+  - Each optimizer's learning preferences.
+  - The convergence speed on various problems.
 
 ---

@@ -39,7 +39,11 @@ def add_weight_decay(model, weight_decay=1e-5, skip_list=()):
         {'params': decay, 'weight_decay': weight_decay}]
 
 
-class Frankenstein (Optimizer):
+import math
+import torch
+from torch.optim.optimizer import Optimizer
+
+class Frankenstein(Optimizer):
     r"""Implements Frankenstein optimizer
     Arguments:
         params (iterable): iterable of parameters to optimize or dicts defining
@@ -56,7 +60,7 @@ class Frankenstein (Optimizer):
             the optimizer uses decoupled weight decay as in AdamW
     """
     def __init__(self, params, lr=1e-3, eps=1e-8,
-                 weight_decay=0, weight_decouple=False, fixed_beta=0):
+                 weight_decay=0, weight_decouple=True, fixed_beta=0):
         if not 0.0 <= lr:
             raise ValueError("Invalid learning rate: {}".format(lr))
         if not 0.0 <= eps:
@@ -99,7 +103,7 @@ class Frankenstein (Optimizer):
                 if group['fixed_beta']!=0:
                     momentum=group['fixed_beta']
                 else:
-                    momentum=1.0-np.clip(0.1*math.sqrt(group['lr']/1e-3),0.05,0.5)
+                    momentum=1.0-np.clip(0.1*math.sqrt(group['lr']/2e-4),0.05,0.5)
                 
                 if group['weight_decay'] > 0:
                     if group['weight_decouple']:
@@ -111,16 +115,16 @@ class Frankenstein (Optimizer):
                 dfc =torch.div(1.60653065971,torch.add(1.0,kk))
                 pen=torch.add(torch.mul(grad,grad) ,group['eps'])
                 temp1=torch.max(vmax, pen)
-                temp2=torch.sqrt(temp1)
-                lr_t=torch.mul(torch.div(group['lr'],temp2)),dfc)
-                temp3=torch.log(torch.clamp(3.21828182846-v_f+temp2
+                lr_t=torch.mul(torch.div(group['lr'],torch.sqrt(temp1)),dfc)
+                temp2=torch.log(torch.clamp(2.71828182846-v_f+0.5
                 , 0.81873075307,2.8010658347))
-                m.mul_(torch.mul(temp3,momentum)).add_(torch.mul(-grad , lr_t))
-                temp4=torch.mul(torch.clamp(torch.div(pen,s),0.0,1.0),torch.abs(v_f-0.5))
+                m.mul_(torch.mul(temp2,momentum)).add_(torch.mul(-grad , lr_t))
+                temp3=torch.mul(torch.clamp(torch.div(pen,s),0.0,1.0),torch.abs(v_f-0.5))
                 p.data.add_(torch.add(torch.mul(momentum,m),torch.mul(-grad, lr_t)))
-                vmax.copy_(torch.add(torch.mul(temp1,torch.add(1,-temp4)),torch.mul(temp4,pen)))
+                vmax.copy_(torch.add(torch.mul(temp1,torch.add(1,-temp3)),torch.mul(temp3,pen)))
                 s.copy_(pen)
         return loss
+        
 def create_optimizer(args, model, filter_bias_and_bn=True):
     opt_lower = args.opt.lower()
     weight_decay = args.weight_decay
