@@ -24,6 +24,4 @@ Top 1 testing accuracy:
 
 <img width="800" alt="portfolio_view" src="https://github.com/acctouhou/Frankenstein_optimizer_temp/blob/main/2_Experiment_Pytorch/Imagenet_image_classification/imagenet.png">
 
-
-
-
+The raw classification results for ResNet18 and ResNet50 using five different random seeds can be found in the results directory.

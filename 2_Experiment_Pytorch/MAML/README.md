@@ -27,3 +27,11 @@ python main.py data --taropt 0 --output-folder temp --dataset omniglot --num-way
 ## Result
 <img width="800" alt="portfolio_view" src="https://github.com/acctouhou/Frankenstein_optimizer_temp/blob/main/2_Experiment_Pytorch/MAML/maml.png">
 
+The following result files follow the naming convention x_y_z, where x represents the index of the optimizer type, y corresponds to the num-ways parameter in the MAML algorithm, and z denotes the num-shots parameter.
+
+
+
+
+
+
+

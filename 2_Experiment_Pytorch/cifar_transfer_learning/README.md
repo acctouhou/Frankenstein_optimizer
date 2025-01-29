@@ -54,4 +54,14 @@ python train.py --model eff --size 4 --optim frank --batchsize 128 --total_epoch
 The learning rate can be adjusted dynamically using a step scheduler. By default, the learning rate decreases at defined epochs.
 
 ## Logging and Saving Results
-Training logs are saved in text files, e.g., `ft_100_frank_4.txt`, which contain training and testing accuracies for each epoch.
+Logging and Saving Results
+
+Training logs are saved in text files, following this format:
+
+ft_100_frank_4.txt: Trained on CIFAR-100 with Frankenstein optimizer and EfficientNet-B4.
+
+ft_10_frank_0.txt: Trained on CIFAR-10 with Frankenstein optimizer and EfficientNet-B0.
+
+ft_100_sgd_2.txt: Trained on CIFAR-100 with SGD optimizer and EfficientNet-B2.
+
+Each log file contains training and testing accuracies for each epoch.
