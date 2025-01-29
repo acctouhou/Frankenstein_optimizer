@@ -2,9 +2,6 @@
 
 ## Introduction
 
-This repo is modified form the [project](https://github.com/tristandeleu/pytorch-maml).
-
-
 In this framework, optimizers listed below are available:
 - **0.Frankenstein**
 - **1.Adam**
@@ -19,11 +16,17 @@ In this framework, optimizers listed below are available:
 ## Getting started
 
 ```
-python main.py data --taropt 0 --output-folder temp --dataset omniglot --num-ways 5 --num-shots 20 --use-cuda --step-size 0.1 --batch-size 64 --num-workers 2 --num-epochs 100 --meta-lr 2e-4 --output-folder to/results&
-
-#taropt: the target optimizer id 0 for Frankenstein
+python main.py 
 ```
 
 ## Result
-<img width="800" alt="portfolio_view" src="https://github.com/acctouhou/Frankenstein_optimizer_temp/blob/main/2_Experiment_Pytorch/MAML/maml.png">
+<img width="800" alt="portfolio_view" src="https://github.com/acctouhou/Frankenstein_optimizer_temp/blob/main/3_Experiment_Tensorflow/Over_adaptive_testing
+/overfitting.png">
+
+The `result` folder contains the results used in the paper, generated with batch sizes of 4 and 128, using eight different optimizers (numbered according to the table above).
+
+
+
+
+
 
