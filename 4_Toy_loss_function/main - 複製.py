@@ -78,7 +78,6 @@ class adam(Optimizer):
         self.x = self.x - (lr*m_x_hat)/(np.sqrt(v_x_hat)+epsilon)
         self.y = self.y - (lr*m_y_hat)/(np.sqrt(v_y_hat)+epsilon)
         return [self.x, self.y]
-    
 class Frankenstein(Optimizer):
     def __init__(self, cost_f, lr=0.001, x=None, y=None):
         super().__init__(cost_f, lr, x, y)

@@ -14,7 +14,7 @@ class ssine:
         self.df_dy = grad(self.eval, 1) # Partial derivative of the objective function over y
         
     def eval(self, x, y):
-        z = np.abs(-x-np.sin(x*4)*-0.24)
+        z = np.abs(0.25*np.sin(x*4)-x)
         return z 
 class Bukin :
     def __init__(self):
