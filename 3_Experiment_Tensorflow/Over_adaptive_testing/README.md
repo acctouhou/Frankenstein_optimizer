@@ -20,8 +20,7 @@ python main.py
 ```
 
 ## Result
-<img width="800" alt="portfolio_view" src="https://github.com/acctouhou/Frankenstein_optimizer_temp/blob/main/3_Experiment_Tensorflow/Over_adaptive_testing
-/overfitting.png">
+<img width="800" alt="portfolio_view" src="https://github.com/acctouhou/Frankenstein_optimizer_temp/blob/main/3_Experiment_Tensorflow/Over_adaptive_testing/overfitting.png">
 
 The `result` folder contains the results used in the paper, generated with batch sizes of 4 and 128, using eight different optimizers (numbered according to the table above).
 
