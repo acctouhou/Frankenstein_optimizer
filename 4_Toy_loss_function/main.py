@@ -11,7 +11,10 @@ import math
 
 
 
-name='ssine'
+name='Beale'
+#ssine is the function we showed in paper
+
+
 
 
 iterations =5000
