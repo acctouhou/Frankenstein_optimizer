@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repo is modified form the [project](https://github.com/ivallesp/awesome-optimizers).
+This repo is modified from the [project](https://github.com/ivallesp/awesome-optimizers).
 
 The play ground demostrate varing problems and gradient-basd optimizers.
 
