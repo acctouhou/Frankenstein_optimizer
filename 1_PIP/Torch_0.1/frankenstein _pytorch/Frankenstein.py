@@ -17,8 +17,6 @@ class Frankenstein (Optimizer):
         weight_decay (float, optional): weight decay (L2 penalty) (default: 0)
         weight_decouple (boolean, optional): ( default: True) If set as True, then
             the optimizer uses decoupled weight decay as in AdamW
-        base_lr (float, optional): The default learning rate paired with beta. If training from scratch, set it to 1e-3; for fine-tuning, set it to 1e-4. (Default: 1e-3)
-        base_beta (float, optional): default beta coefficient (default: 0.9)
     """
     def __init__(self, params, lr=1e-3, eps=1e-8,
                  weight_decay=0, weight_decouple=True, fixed_beta=0,base_lr=1e-3,base_beta=0.9):
@@ -28,18 +26,17 @@ class Frankenstein (Optimizer):
             raise ValueError("Invalid epsilon value: {}".format(eps))
         if not 0.0 <= fixed_beta < 1.0:
             raise ValueError("Invalid momentum value: {}".format(fixed_beta))
-        defaults = dict(lr=torch.tensor(lr,dtype=torch.bfloat16), eps=torch.tensor(eps,dtype=torch.bfloat16),
-                        weight_decay=torch.tensor(weight_decay,dtype=torch.bfloat16), weight_decouple=weight_decouple,
-                        fixed_beta=fixed_beta,base_lr=base_lr,base_beta=base_beta
-                        )
+        defaults = dict(lr=lr, eps=eps, weight_decay=weight_decay,
+                        weight_decouple=weight_decouple,
+                        fixed_beta=fixed_beta,base_lr=base_lr,base_beta=base_beta)
+
         super(Frankenstein, self).__init__(params, defaults)
-        
         
         self.max_xi=float(np.exp(1.03))
         self.min_xi=float(np.exp(-0.2))
-        
         self.max_beta_adj=float(0.05)
-        self.min_beta_adj=float(1.0)
+        self.pi=float(math.pi)
+        
         
         
     def __setstate__(self, state):
@@ -74,23 +71,25 @@ class Frankenstein (Optimizer):
                 if group['fixed_beta']!=0:
                     momentum=group['fixed_beta']
                 else:
-                    momentum=1.0-np.clip((1.0-group['base_beta'])*math.sqrt(group['lr']/group['base_lr']),self.max_beta_adj,self.min_beta_adj)
+                    
+                    momentum=1.0- max(self.max_beta_adj, min(1-self.max_beta_adj, (1-group['base_beta']) * math.sqrt(group['lr'] / group['base_lr'])))
                 
                 if group['weight_decay'] > 0:
                     if group['weight_decouple']:
                         p.data.mul_(1.0 - group['lr'] * group['weight_decay'])
                     else:
                         grad.add_(p.data, alpha=group['weight_decay'])
-                p_factor=torch.div(torch.acos(torch.tanh(torch.mul(m,grad))),math.pi)                
+                
+                
+                p_factor=torch.div(torch.acos(torch.tanh(torch.mul(m,grad))),self.pi)
                 dfc =torch.div(1.60653065971,torch.add(1.0,torch.exp(-torch.abs(torch.add(s ,-p_factor)))))
+
                 square_grad=torch.add(torch.mul(grad,grad) ,group['eps'])
-                
                 max_square_grad=torch.max(vmax, square_grad)
-                max_grad=torch.sqrt(square_grad)
-                
+                max_grad=torch.sqrt(max_square_grad)
                 lr_t=torch.mul(torch.div(group['lr'],max_grad),dfc)
                 xi_factor=torch.log(torch.clamp(3.21828182846-p_factor+max_grad, min=self.min_xi,max=self.max_xi))
-                m.mul_(torch.mul(xi_factor,momentum)).add_(torch.mul(-grad , lr_t))
+                m.mul_(torch.mul(xi_factor,momentum)).add_(torch.mul(-grad , lr_t))                
                 beta_2=torch.mul(torch.clamp(torch.div(square_grad,s),0.0,1.0),torch.abs(p_factor-0.5))
                 p.data.add_(torch.add(torch.mul(momentum,m),torch.mul(-grad, lr_t)))
                 vmax.copy_(torch.add(torch.mul(max_square_grad,torch.add(1.0,-beta_2)),torch.mul(beta_2,square_grad)))
