@@ -69,10 +69,10 @@ class Frankenstein (Optimizer):
                 
                 
                 if group['fixed_beta']!=0:
-                    momentum=group['fixed_beta']
+                    beta_1=group['fixed_beta']
                 else:
                     
-                    momentum=1.0- max(self.max_beta_adj, min(1-self.max_beta_adj, (1-group['base_beta']) * math.sqrt(group['lr'] / group['base_lr'])))
+                    beta_1=1.0- max(self.max_beta_adj, min(1-self.max_beta_adj, (1-group['base_beta']) * math.sqrt(group['lr'] / group['base_lr'])))
                 
                 if group['weight_decay'] > 0:
                     if group['weight_decouple']:
@@ -81,17 +81,17 @@ class Frankenstein (Optimizer):
                         grad.add_(p.data, alpha=group['weight_decay'])
                 
                 
-                p_factor=torch.div(torch.acos(torch.tanh(torch.mul(m,grad))),self.pi)
-                dfc =torch.div(1.60653065971,torch.add(1.0,torch.exp(-torch.abs(torch.add(s ,-p_factor)))))
+                p_factor=torch.div(torch.acos(torch.tanh(torch.mul(m,grad))),self.pi)  # frankenstein
+                xi =torch.div(1.60653065971,torch.add(1.0,torch.exp(-torch.abs(torch.add(s ,-p_factor)))))
 
-                square_grad=torch.add(torch.mul(grad,grad) ,group['eps'])
-                max_square_grad=torch.max(vmax, square_grad)
-                max_grad=torch.sqrt(max_square_grad)
-                lr_t=torch.mul(torch.div(group['lr'],max_grad),dfc)
-                xi_factor=torch.log(torch.clamp(3.21828182846-p_factor+max_grad, min=self.min_xi,max=self.max_xi))
-                m.mul_(torch.mul(xi_factor,momentum)).add_(torch.mul(-grad , lr_t))                
-                beta_2=torch.mul(torch.clamp(torch.div(square_grad,s),0.0,1.0),torch.abs(p_factor-0.5))
-                p.data.add_(torch.add(torch.mul(momentum,m),torch.mul(-grad, lr_t)))
-                vmax.copy_(torch.add(torch.mul(max_square_grad,torch.add(1.0,-beta_2)),torch.mul(beta_2,square_grad)))
-                s.copy_(square_grad)
+                x_t=torch.add(torch.mul(grad,grad) ,group['eps'])
+                v_t=torch.max(vmax, x_t)
+                sqrt_v=torch.sqrt(v_t)
+                alpha_xi_sqrt_v=torch.mul(torch.div(group['lr'],sqrt_v),xi)
+                rho_factor=torch.log(torch.clamp(3.21828182846-p_factor+sqrt_v, min=self.min_rho,max=self.max_rho))
+                m.mul_(torch.mul(rho_factor,beta_1)).add_(torch.mul(-grad , alpha_xi_sqrt_v))                 # Momentum update
+                beta_2=torch.mul(torch.clamp(torch.div(x_t,s),0.0,1.0),torch.abs(p_factor-0.5))  # actually, 1-beta_2
+                p.data.add_(torch.add(torch.mul(beta_1,m),torch.mul(-grad, alpha_xi_sqrt_v))) # Parameter update
+                vmax.copy_(torch.add(torch.mul(v_t,torch.add(1.0,-beta_2)),torch.mul(beta_2,x_t)))  # v_t update
+                s.copy_(x_t)
         return loss
