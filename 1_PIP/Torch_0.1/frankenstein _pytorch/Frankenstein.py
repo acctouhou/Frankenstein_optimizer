@@ -25,15 +25,15 @@ class Frankenstein (Optimizer):
         if not 0.0 <= eps:
             raise ValueError("Invalid epsilon value: {}".format(eps))
         if not 0.0 <= fixed_beta < 1.0:
-            raise ValueError("Invalid momentum value: {}".format(fixed_beta))
+            raise ValueError("Invalid beta_1 value: {}".format(fixed_beta))
         defaults = dict(lr=lr, eps=eps, weight_decay=weight_decay,
                         weight_decouple=weight_decouple,
                         fixed_beta=fixed_beta,base_lr=base_lr,base_beta=base_beta)
 
         super(Frankenstein, self).__init__(params, defaults)
         
-        self.max_xi=float(np.exp(1.03))
-        self.min_xi=float(np.exp(-0.2))
+        self.max_rho=float(np.exp(1.03))
+        self.min_rho=float(np.exp(-0.2))
         self.max_beta_adj=float(0.05)
         self.pi=float(math.pi)
         
